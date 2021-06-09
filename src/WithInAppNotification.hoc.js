@@ -10,10 +10,11 @@ function withInAppNotification(WrappedComponent) {
       return (
         <Context.Consumer>
           {showNotification => (
-            <WrappedComponent
+            React.forwardRef((props, ref) => (<WrappedComponent
               {...this.props}
+              ref={ref}
               showNotification={showNotification}
-            />
+            />))
           )}
         </Context.Consumer>
       );
