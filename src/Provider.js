@@ -2,39 +2,40 @@ import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 
 import Context from './Context';
+import NotificationList from './NotificationList';
 import Notification from './Notification';
 
 class Provider extends React.PureComponent {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.showNotification = this.showNotification.bind(this);
-  }
-
-  showNotification(notificationOptions) {
-    if (this.notification) {
-      this.notification.show(notificationOptions);
+        this.showNotification = this.showNotification.bind(this);
     }
-  }
 
-  render() {
-    return (
-      <Context.Provider value={this.showNotification}>
-        {Children.only(this.props.children)}
-        <Notification
-          ref={(ref) => {
-            this.notification = ref;
-          }}
-          {...this.props}
-        />
-      </Context.Provider>
-    );
-  }
+    showNotification(notificationOptions) {
+        if (this.notificationList) {
+            this.notificationList.show(notificationOptions);
+        }
+    }
+
+    render() {
+        return (
+            <Context.Provider value={this.showNotification}>
+                {Children.only(this.props.children)}
+                <NotificationList
+                    ref={(ref) => {
+                        this.notificationList = ref;
+                    }}
+                    {...this.props}
+                />
+            </Context.Provider>
+        );
+    }
 }
 
 Provider.propTypes = {
-  ...Notification.propTypes,
-  children: PropTypes.element.isRequired,
+    ...NotificationList.propTypes,
+    children: PropTypes.element.isRequired,
 };
 
 export default Provider;
